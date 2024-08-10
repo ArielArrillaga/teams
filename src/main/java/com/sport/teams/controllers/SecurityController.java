@@ -1,24 +1,43 @@
 package com.sport.teams.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sport.teams.exceptionHandlers.InternalServerErrorException;
+import com.sport.teams.exceptionHandlers.InvalidJwtException;
+import com.sport.teams.exceptionHandlers.NoContent;
+import com.sport.teams.exceptionHandlers.BadRequestException;
 
 @RestController
 @RequestMapping("/")
 public class SecurityController {
-	 @Autowired
-	    private UserRepository userRepository;
 	 
-	 @GetMapping("/prueba")
-	 public ResponseEntity<String> prueba(){
-		 String username = userRepository.findFirstByOrderByIdAsc()
-	                .map(UsuarioApp::getUsername) // Obtiene el username del primer usuario
-	                .orElse("No user found"); // Retorna un mensaje si no hay usuarios
-	     return new ResponseEntity<String>(username, HttpStatus.OK);
+	 @GetMapping("/prueba/{ex}")
+	 public ResponseEntity<String> prueba(@PathVariable("ex") String ex){
+		 switch (ex) {
+		case "una": {
+			
+			throw new InvalidJwtException();
+		}
+	case "bad": {
+			
+			throw new BadRequestException("Datos incorrectos.");
+		}
+	case "int": {
+		
+		throw new InternalServerErrorException();
+	}
+	case "noc": {
+		
+		throw new NoContent();
+	}
+
+		default:
+			
+			return null;
+		}
 	 }
 }
