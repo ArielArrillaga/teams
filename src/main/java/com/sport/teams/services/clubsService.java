@@ -1,19 +1,22 @@
 package com.sport.teams.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.sport.teams.entitys.clubs.Club;
 import com.sport.teams.exceptionHandlers.NoContent;
+import com.sport.teams.exceptionHandlers.NotFoundException;
 import com.sport.teams.repositories.ClubsRepository;
 
 @Service
-public class clubsService implements IClubsService {
-	private static final Logger log = LoggerFactory.getLogger(clubsService.class);
+public class ClubsService implements IClubsService {
+	private static final Logger log = LoggerFactory.getLogger(ClubsService.class);
 
 	@Autowired
 	ClubsRepository clubsRepository;
@@ -26,11 +29,23 @@ public class clubsService implements IClubsService {
 	     List<Club> clubes = clubsRepository.findAll();
 	     
 	     if (clubes.isEmpty()) {
-	    	 log.info("clubsService: findAll: No hay clubes en la base de datos.");
+	    	 log.info("ClubsService: findAll: No hay clubes en la base de datos.");
 	    	 throw new NoContent();
 	     }
 	     
 	     return clubes;
+	}
+	
+	/**
+	 * obtiene un equipo segun su id, devuelve not found si el id no existe
+	 */
+	@Override
+	public Club findById(Long id) {
+	     return clubsRepository.findById(id)
+	    		.orElseThrow(() -> { 
+	    	 		log.error("ClubsService: findById: Error, no se encontro equipo con id: "+id);
+	    	 		return new NotFoundException("Equipo no encontrado");
+	     		});
 	}
 
 }
