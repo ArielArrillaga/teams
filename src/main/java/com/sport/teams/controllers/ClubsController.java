@@ -49,7 +49,7 @@ public class ClubsController implements IClubsController {
 	@Override
     @GetMapping("/buscar")
 	@ValidateJwt
-    public ResponseEntity<List<Club>> getClubsByNombre(@RequestParam String nombre) {
+    public ResponseEntity<List<Club>> getClubByNombre(@RequestParam String nombre) {
 		log.info("ClubsController: getClubsByNombre: Iniciando servicio, buscando clubes que contengan " +nombre+ " en su nombre.");
         return new ResponseEntity<List<Club>> (clubsService.findByNombre(nombre), HttpStatus.OK);
     }
