@@ -1,24 +1,17 @@
 package com.sport.teams.services;
 
-import java.util.Date;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import java.security.Key;
-import io.jsonwebtoken.security.Keys;
 
 import com.sport.teams.entitys.security.JwtResponse;
 import com.sport.teams.entitys.security.LoginRequest;
 import com.sport.teams.entitys.security.UserApp;
-import com.sport.teams.exceptionHandlers.InternalServerErrorException;
 import com.sport.teams.exceptionHandlers.UnauthorizedException;
 import com.sport.teams.repositories.UsersRepository;
-
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 
 @Service
 public class SecurityService implements ISecurityService {
