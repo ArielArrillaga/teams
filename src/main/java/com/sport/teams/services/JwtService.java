@@ -3,7 +3,6 @@ package com.sport.teams.services;
 import java.security.Key;
 import java.util.Date;
 
-import org.aspectj.lang.annotation.Before;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +28,9 @@ public class JwtService implements IJwtService {
 	@Autowired
 	HttpServletRequest request;
 	
+	/**
+	 * Obtiene el jwt desde el header
+	 */
 	@Override
 	public String getJwt () {
 		try {
@@ -46,6 +48,9 @@ public class JwtService implements IJwtService {
 		}
 	}
 
+	/**
+	 * Genera el jwt con el username, fecha de creacion y fecha de expiracion.
+	 */
 	@Override
 	public String generateJwt(String username) {
         try {
@@ -65,6 +70,9 @@ public class JwtService implements IJwtService {
         }
     }
 
+	/**
+	 * Verifica que el jwt se encuentre en un estado valido y que no este vencido
+	 */
 	@Override
 	public void checkJwt() {
 		String token = this.getJwt();

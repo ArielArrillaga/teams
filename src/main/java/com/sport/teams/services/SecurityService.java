@@ -31,6 +31,9 @@ public class SecurityService implements ISecurityService {
     @Autowired
     IJwtService jwtService;
     
+    /**
+     * Valida el usuario y contraseña ingresados
+     */
 	@Override
 	public JwtResponse validateLogin(LoginRequest request) {
 
@@ -50,6 +53,11 @@ public class SecurityService implements ISecurityService {
 	}
 	
 
+	/**
+	 * Obtiene la password desde la DB
+	 * @param username
+	 * @return
+	 */
 	private String getUserPassword (String username) {
         UserApp usuario = usersRepository.findByUsername(username);
 
