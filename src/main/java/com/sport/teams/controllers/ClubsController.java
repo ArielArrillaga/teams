@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sport.teams.anotations.ValidateJwt;
@@ -32,10 +33,20 @@ public class ClubsController implements IClubsController {
 		return new ResponseEntity<List<Club>> (clubsService.findAll(), HttpStatus.OK);
 	}
 	
+	@Override
 	@GetMapping("/{id}")
+	@ValidateJwt
     public ResponseEntity<Club> getClubById(@PathVariable Long id) {
 		log.info("ClubsController: getClubById: Iniciando servicio, id: "+id);
         return new ResponseEntity<Club> (clubsService.findById(id), HttpStatus.OK);
+    }
+	
+	@Override
+    @GetMapping("/buscar")
+	@ValidateJwt
+    public ResponseEntity<List<Club>> getClubsByNombre(@RequestParam String nombre) {
+		log.info("ClubsController: getClubsByNombre: Iniciando servicio, buscando clubes que contengan " +nombre+ " en su nombre.");
+        return new ResponseEntity<List<Club>> (clubsService.findByNombre(nombre), HttpStatus.OK);
     }
 
 }

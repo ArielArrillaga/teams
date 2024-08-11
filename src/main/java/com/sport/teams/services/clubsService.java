@@ -47,5 +47,21 @@ public class ClubsService implements IClubsService {
 	    	 		return new NotFoundException("Equipo no encontrado");
 	     		});
 	}
+	
+	/**
+	 * Busca los clubes que contengan en el nombre el el parametro ingresado
+	 */
+	@Override
+	public List<Club> findByNombre(String nombre) {
+		
+		 List<Club> clubes =  clubsRepository.findByNombreContaining(nombre);
+		 
+		 if (clubes.isEmpty()) {
+	    	 log.info("ClubsService: findByNombre: No hay clubes que coincian con la busqueda.");
+	    	 throw new NoContent();
+	     }
+	     
+	     return clubes;      
+    }
 
 }
