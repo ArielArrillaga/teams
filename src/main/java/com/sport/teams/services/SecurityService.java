@@ -22,14 +22,14 @@ import io.jsonwebtoken.SignatureAlgorithm;
 
 @Service
 public class SecurityService implements ISecurityService {
-	
-	//secret key para firmar el jwt
-    private static final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
     
 	private static final Logger log = LoggerFactory.getLogger(SecurityService.class);
 
     @Autowired
-    private UsersRepository usersRepository;
+    UsersRepository usersRepository;
+    
+    @Autowired
+    IJwtService jwtService;
     
 	@Override
 	public JwtResponse validateLogin(LoginRequest request) {
@@ -44,28 +44,11 @@ public class SecurityService implements ISecurityService {
         	throw new UnauthorizedException();
         }
 
-        String jwt = this.generateJwt(username);
+        String jwt = jwtService.generateJwt(username);
 		
 		return new JwtResponse(jwt);
 	}
 	
-	private String generateJwt(String username) {
-        try {
-            long nowMillis = System.currentTimeMillis();
-            Date now = new Date(nowMillis);
-            Date expirationDate = new Date(nowMillis + 600000); // 10 minutos de expiración
-
-            return Jwts.builder()
-                    .setSubject(username)
-                    .setIssuedAt(now) // Fecha de creación
-                    .setExpiration(expirationDate) // Fecha de vencimiento (10 minutos después)
-                    .signWith(key) // Firma con la clave secreta
-                    .compact();
-        } catch (Exception e) {
-        	log.error("SecurityService: genereteJwt: Error al generar jwt, motivo: " + e);
-            throw new InternalServerErrorException("Error al crear JWT en login.");
-        }
-    }
 
 	private String getUserPassword (String username) {
         UserApp usuario = usersRepository.findByUsername(username);

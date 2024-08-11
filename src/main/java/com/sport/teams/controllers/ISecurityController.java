@@ -8,4 +8,5 @@ import com.sport.teams.entitys.security.LoginRequest;
 
 public interface ISecurityController {  
 	public ResponseEntity<JwtResponse> login (LoginRequest request);
+	public String prueba ();
 }
