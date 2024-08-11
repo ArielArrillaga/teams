@@ -29,4 +29,11 @@ public class Club {
     	this.pais = request.getPais();
     }
     
+    public Club(ClubRequest request, Long id) {
+    	this.id = id;
+    	this.nombre = request.getNombre();
+    	this.liga = request.getLiga();
+    	this.pais = request.getPais();
+    }
+    
 }

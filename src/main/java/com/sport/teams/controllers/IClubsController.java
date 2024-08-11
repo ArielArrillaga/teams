@@ -14,5 +14,6 @@ public interface IClubsController {
 	public ResponseEntity<Club> getClubById(Long id);
 	public ResponseEntity<List<Club>> getClubsByNombre(String nombre);
 	public ResponseEntity<Club> createClub(ClubRequest club);
+	public ResponseEntity<Club> updateClub(Long id, ClubRequest club);
 
 }

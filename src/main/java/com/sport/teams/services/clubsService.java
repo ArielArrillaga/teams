@@ -83,5 +83,19 @@ public class ClubsService implements IClubsService {
         Club club = new Club(clubRequest);
 	    return clubsRepository.save(club);
 	}
+	
+	@Override
+	public Club updateClub(Long id, ClubRequest clubRequest) {
+		//Verifica si el id existe
+        if (!clubsRepository.findById(id).isPresent()) {
+        	log.error("ClubsService: updateClub: No existe equipo con el id: " + id);
+            throw new NotFoundException("Equipo no encontrado");
+        }
+        
+        //crea la entity
+        Club club = new Club(clubRequest, id);
+        
+        return clubsRepository.save(club);
+	}
 
 }
