@@ -11,4 +11,5 @@ public interface IClubsService {
 	public List<Club> findByNombre(String nombre);
 	public Club createClub(ClubRequest club);
 	public Club updateClub(Long id, ClubRequest clubRequest);
+	public void deleteClub(Long id);
 }

@@ -66,6 +66,9 @@ public class ClubsService implements IClubsService {
 	     return clubes;      
     }
 	
+	/**
+	 * Crea un club si el request esta completo y si el nombre no existe en la db.
+	 */
 	@Override
 	public Club createClub(ClubRequest clubRequest) {
 		
@@ -84,6 +87,9 @@ public class ClubsService implements IClubsService {
 	    return clubsRepository.save(club);
 	}
 	
+	/**
+	 * Modifica un club si el id existe en la db
+	 */
 	@Override
 	public Club updateClub(Long id, ClubRequest clubRequest) {
 		//Verifica si el id existe
@@ -96,6 +102,20 @@ public class ClubsService implements IClubsService {
         Club club = new Club(clubRequest, id);
         
         return clubsRepository.save(club);
+	}
+	
+	/**
+	 * elimina un club segun su id si es que el id existe en la db
+	 */
+	@Override
+	public void deleteClub(Long id) {
+		//Verifica si el id existe
+		if (!clubsRepository.findById(id).isPresent()) {
+			log.error("ClubsService: deleteClub: No existe equipo con el id: " + id);
+            throw new NotFoundException("Equipo no encontrado");
+        }
+		
+		clubsRepository.deleteById(id);
 	}
 
 }

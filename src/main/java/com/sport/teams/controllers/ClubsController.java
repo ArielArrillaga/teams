@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -67,6 +68,15 @@ public class ClubsController implements IClubsController {
     public ResponseEntity<Club> updateClub(@PathVariable Long id, @RequestBody ClubRequest club) {
 		log.info("ClubsController: getClubsByNombre: Iniciando servicio, modificando club con id: "+ id);
         return new ResponseEntity<Club>(clubsService.updateClub(id, club), HttpStatus.OK);
+    }
+	
+	@Override
+	@DeleteMapping("/{id}")
+	@ValidateJwt
+    public ResponseEntity<Void> deleteClub(@PathVariable Long id) {
+		log.info("ClubsController: deleteClub: Iniciando servicio, id: "+id);
+		clubsService.deleteClub(id);
+        return new ResponseEntity<Void> (HttpStatus.NO_CONTENT);
     }
 
 }
