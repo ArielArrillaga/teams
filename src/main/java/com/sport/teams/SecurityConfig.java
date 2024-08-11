@@ -13,18 +13,18 @@ import org.springframework.security.config.Customizer;
 public class SecurityConfig {
 
 	@Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-            .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/h2-console/**").permitAll() // Permitir el acceso a la consola de H2
-                .anyRequest().permitAll() // Permitir todas las demás solicitudes sin autenticación
-            )
-            .csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**")) // Deshabilitar la protección CSRF solo para H2
-            .headers(headers -> headers
-                .frameOptions(frameOptions -> frameOptions.sameOrigin()) // Permitir que H2 se cargue dentro de un frame
-            );
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+	    http
+	        .csrf(csrf -> csrf.disable()) // Deshabilitar CSRF globalmente para prueba
+	        .authorizeHttpRequests(authorize -> authorize
+	            .requestMatchers("/h2-console/**").permitAll()
+	            .anyRequest().permitAll()
+	        )
+	        .headers(headers -> headers
+	            .frameOptions(frameOptions -> frameOptions.sameOrigin())
+	        );
 
-        return http.build();
-    }
+	    return http.build();
+	}
 }
 

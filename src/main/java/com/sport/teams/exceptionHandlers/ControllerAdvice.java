@@ -18,6 +18,15 @@ public class ControllerAdvice {
 
     }
     
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(UnauthorizedException.class)
+    @ResponseBody
+    public Response unauthorized(UnauthorizedException ex) {
+
+    	return new Response(ex.getMessage(), HttpStatus.UNAUTHORIZED.value());
+
+    }
+    
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({
             BadRequestException.class,
