@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.sport.teams.entitys.clubs.Club;
+import com.sport.teams.entitys.clubs.ClubRequest;
+import com.sport.teams.exceptionHandlers.BadRequestException;
 import com.sport.teams.exceptionHandlers.NoContent;
 import com.sport.teams.exceptionHandlers.NotFoundException;
 import com.sport.teams.repositories.ClubsRepository;
@@ -63,5 +65,23 @@ public class ClubsService implements IClubsService {
 	     
 	     return clubes;      
     }
+	
+	@Override
+	public Club createClub(ClubRequest clubRequest) {
+		
+		//valida los campos ingresados
+		clubRequest.validateAttributes();
+		
+		 // Verificar si ya existe un club con los mismos datos
+        Optional<Club> existingClub = clubsRepository.findByNombre(clubRequest.getNombre());
+
+        if (existingClub.isPresent()) {
+	    	log.error("ClubsService: findByNombre: El club con nombre " +clubRequest.getNombre()+ " ya existe.");
+            throw new BadRequestException("El club que intenta crear ya existe.");
+        }
+        
+        Club club = new Club(clubRequest);
+	    return clubsRepository.save(club);
+	}
 
 }

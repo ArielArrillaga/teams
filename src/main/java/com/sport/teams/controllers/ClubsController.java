@@ -9,13 +9,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sport.teams.anotations.ValidateJwt;
 import com.sport.teams.entitys.clubs.Club;
+import com.sport.teams.entitys.clubs.ClubRequest;
 import com.sport.teams.services.IClubsService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/equipos")
@@ -47,6 +52,14 @@ public class ClubsController implements IClubsController {
     public ResponseEntity<List<Club>> getClubsByNombre(@RequestParam String nombre) {
 		log.info("ClubsController: getClubsByNombre: Iniciando servicio, buscando clubes que contengan " +nombre+ " en su nombre.");
         return new ResponseEntity<List<Club>> (clubsService.findByNombre(nombre), HttpStatus.OK);
+    }
+	
+	@Override
+	@PostMapping("/")
+	@ValidateJwt
+    public ResponseEntity<Club> createClub(@RequestBody ClubRequest club) {
+		log.info("ClubsController: getClubsByNombre: Iniciando servicio, creando club "+ club.getNombre());
+        return new ResponseEntity<Club>(clubsService.createClub(club), HttpStatus.CREATED);
     }
 
 }

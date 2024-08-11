@@ -13,4 +13,8 @@ public interface ClubsRepository extends JpaRepository<Club, Long> {
 	
     //busca los clubes que coincidan con la busqueda
 	List<Club> findByNombreContaining(String nombre);
+	
+	//busca un club con el nombre exacto
+    Optional<Club> findByNombre(String nombre);
+
 }
