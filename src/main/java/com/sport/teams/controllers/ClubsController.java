@@ -34,49 +34,49 @@ public class ClubsController implements IClubsController {
 	@GetMapping("/")
 	@ValidateJwt
 	public ResponseEntity<List<Club>> findAll() {
-		log.info("ClubsController: findAll: Iniciando servicio.");
-		return new ResponseEntity<List<Club>> (clubsService.findAll(), HttpStatus.OK);
+	    log.info("ClubsController: findAll: Iniciando servicio.");
+	    return ResponseEntity.ok(clubsService.findAll()); 
 	}
-	
+
 	@Override
 	@GetMapping("/{id}")
 	@ValidateJwt
-    public ResponseEntity<Club> getClubById(@PathVariable Long id) {
-		log.info("ClubsController: getClubById: Iniciando servicio, id: "+id);
-        return new ResponseEntity<Club> (clubsService.findById(id), HttpStatus.OK);
-    }
-	
+	public ResponseEntity<Club> getClubById(@PathVariable Long id) {
+	    log.info("ClubsController: getClubById: Iniciando servicio, id: " + id);
+	    return ResponseEntity.ok(clubsService.findById(id)); 
+	}
+
 	@Override
-    @GetMapping("/buscar")
+	@GetMapping("/buscar")
 	@ValidateJwt
-    public ResponseEntity<List<Club>> getClubsByNombre(@RequestParam String nombre) {
-		log.info("ClubsController: getClubsByNombre: Iniciando servicio, buscando clubes que contengan " +nombre+ " en su nombre.");
-        return new ResponseEntity<List<Club>> (clubsService.findByNombre(nombre), HttpStatus.OK);
-    }
-	
+	public ResponseEntity<List<Club>> getClubByNombre(@RequestParam String nombre) {
+	    log.info("ClubsController: getClubByNombre: Iniciando servicio, buscando clubes que contengan " + nombre + " en su nombre.");
+	    return ResponseEntity.ok(clubsService.findByNombre(nombre)); 
+	}
+
 	@Override
 	@PostMapping("/")
 	@ValidateJwt
-    public ResponseEntity<Club> createClub(@RequestBody ClubRequest club) {
-		log.info("ClubsController: getClubsByNombre: Iniciando servicio, creando club "+ club.getNombre());
-        return new ResponseEntity<Club>(clubsService.createClub(club), HttpStatus.CREATED);
-    }
-	
+	public ResponseEntity<Club> createClub(@RequestBody ClubRequest club) {
+	    log.info("ClubsController: createClub: Iniciando servicio, creando club " + club.getNombre());
+	    return ResponseEntity.status(HttpStatus.CREATED).body(clubsService.createClub(club)); 
+	}
+
 	@Override
 	@PutMapping("/{id}")
 	@ValidateJwt
-    public ResponseEntity<Club> updateClub(@PathVariable Long id, @RequestBody ClubRequest club) {
-		log.info("ClubsController: getClubsByNombre: Iniciando servicio, modificando club con id: "+ id);
-        return new ResponseEntity<Club>(clubsService.updateClub(id, club), HttpStatus.OK);
-    }
-	
+	public ResponseEntity<Club> updateClub(@PathVariable Long id, @RequestBody ClubRequest club) {
+	    log.info("ClubsController: updateClub: Iniciando servicio, modificando club con id: " + id);
+	    return ResponseEntity.ok(clubsService.updateClub(id, club)); 
+	}
+
 	@Override
 	@DeleteMapping("/{id}")
 	@ValidateJwt
-    public ResponseEntity<Void> deleteClub(@PathVariable Long id) {
-		log.info("ClubsController: deleteClub: Iniciando servicio, id: "+id);
-		clubsService.deleteClub(id);
-        return new ResponseEntity<Void> (HttpStatus.NO_CONTENT);
-    }
+	public ResponseEntity<Void> deleteClub(@PathVariable Long id) {
+	    log.info("ClubsController: deleteClub: Iniciando servicio, id: " + id);
+	    clubsService.deleteClub(id);
+	    return ResponseEntity.noContent().build(); 
+	}
 
 }

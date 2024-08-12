@@ -26,7 +26,6 @@ public class SecurityController implements ISecurityController{
 	@PostMapping("/login")
 	public ResponseEntity<JwtResponse> login(@RequestBody LoginRequest request) {
 		log.info("SecurityController: login: iniciado para user: "+request.getUsername());
-		JwtResponse jwt = securityService.validateLogin(request);
-		return new ResponseEntity<JwtResponse>(jwt, HttpStatus.OK);
+		return ResponseEntity.ok(securityService.validateLogin(request));
 	}
 }
