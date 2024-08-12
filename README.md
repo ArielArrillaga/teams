@@ -31,17 +31,9 @@ Configuración del Proyecto
 
    git clone https://github.com/ArielArrillaga/teams.git
 
-2. Navega al directorio del proyecto:
+2. Construye el proyecto con Maven.
 
-   cd teams
-
-3. Construye el proyecto con Maven:
-
-   mvn clean install
-
-4. Ejecuta la aplicación:
-
-   mvn spring-boot:run
+3. Ejecuta la aplicación.
 
 Dockerización
 
